@@ -1,0 +1,25 @@
+h2
+{
+  text-align: center ;
+}
+
+.formstyle
+{
+  text-align: center ;
+}
+
+.inputsize {
+	height: 25px ;
+	width: 250px ;
+}
+
+.inline {
+	display: inline-block ;
+	width: 260px ;
+
+}
+
+.condition {
+  height: 300px ;
+  width: 500px ;
+}

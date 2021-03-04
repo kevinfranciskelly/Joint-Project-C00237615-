@@ -90,38 +90,38 @@ if (!$conn->query($sql) === TRUE) {
 <div class="formstyle">
 <form method="post">
   <label for="pps" class="inline">PPS Number</label>
-  <input type="text" id="pps" name='pps' required class="inputsize" pattern="[0-9]{7}[A-Z]{1,2}" title="PPS must be seven numbers followed by one or two capital letters"><br>
+  <input type="text" id="pps" name='pps' required autocomplete="off" class="inputsize" pattern="[0-9]{7}[A-Z]{1,2}" title="PPS must be seven numbers followed by one or two capital letters"><br>
   <br>
   <label for="firstName" class="inline">First Name</label>
-  <input type="text" id="firstName" name="firstName" required class="inputsize" pattern="[A-Za-z' ]{1,}"><br>
+  <input type="text" id="firstName" name="firstName" autocomplete="off" required class="inputsize" pattern="[A-Za-z' ]{1,}"><br>
   <br>
   <label for="lastName" class="inline">Last Name</label>
-  <input type="text" id="lastName" name="lastName" required class="inputsize" pattern="[A-Za-z' ]{1,}"><br>
+  <input type="text" id="lastName" name="lastName" autocomplete="off" required class="inputsize" pattern="[A-Za-z' ]{1,}"><br>
   <br>
   <label for="dob" class="inline">Date of Birth</label>
   <input type="date" id="dob" name="dob" required class="inputsize"><br>
   <br>
   <label for="addrLine1" class="inline">Address Line 1</label>
-  <input type="text" id="addrLine1" name="addrLine1" required class="inputsize" pattern="[A-Za-z0-9]{1,}"><br>
+  <input type="text" id="addrLine1" name="addrLine1" autocomplete="off" required class="inputsize" pattern="[A-Za-z0-9]{1,}"><br>
   <br>
   <label for="addrLine2" class="inline">Address Line 2</label>
-  <input type="text" id="addrLine2" name="addrLine2" required class="inputsize" pattern="[A-Za-z0-9]{1,}"><br>
+  <input type="text" id="addrLine2" name="addrLine2" autocomplete="off" required class="inputsize" pattern="[A-Za-z0-9]{1,}"><br>
   <br>
   <label for="county" class="inline">County</label>
-  <input type="text" id="county" name="county" required class="inputsize" pattern="[A-Za-z]{4,13}"><br>
+  <input type="text" id="county" name="county" autocomplete="off" required class="inputsize" pattern="[A-Za-z]{4,13}"><br>
   <br>
   <label for="eirCode" class="inline">Eircode</label>
-  <input type="text" id="eirCode" name="eirCode" class="inputsize" pattern="[A-Z0-9]{7}"><br>
+  <input type="text" id="eirCode" name="eirCode" autocomplete="off" class="inputsize" pattern="[A-Z0-9]{7}"><br>
   <br>
   <label for="email" class="inline">E-mail</label>
-  <input type="email" id="email" name="email" class="inputsize" required><br>
+  <input type="email" id="email" name="email" autocomplete="off" class="inputsize" required><br>
   <br>
   <label for="password" class="inline">Password</label>
-  <input type="password" id="password" name="password" class="inputsize"><br>
+  <input type="password" id="password" autocomplete="off" name="password" class="inputsize"><br>
   <br>
   <br><br>
   <label for="condition" class="inline">Please list any relevant conditions you have</label><br>
-  <input type="text" id ="condition" name="condition" class="condition" pattern="[A-Za-z]{175}">
+  <input type="text" id ="condition" name="condition" autocomplete="off" class="condition" pattern="[A-Za-z]{175}">
   <br><br>
   <h2>By selecting "Create Account", you consent to providing your personal infromation to utilize the services of this COVID-19 Booking Application</h2>
   <button type="submit" name="newUser">Create Account</button>

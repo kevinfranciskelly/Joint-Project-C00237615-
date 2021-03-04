@@ -21,6 +21,12 @@ if (!$conn->query($sql) === TRUE) {
   die('Error using database: ' . $conn->error);
 }
 
+if (isset($_SESSION["loggedIn"]))
+{
+  include "home.php" ;
+  exit() ;
+}
+
 ?>
 <?php
 #Check to ensure the user is logged in
@@ -31,7 +37,7 @@ if (isset($_POST['loginAttempt']))
     $sql = "SELECT PPS, passWord, iv, firstName, lastName, isAdmin from users";
     $result = $conn->query($sql) ;
     $check = FALSE ;
-    while ($row = $result->fetch_assoc() && $check === FALSE)
+    while ($row = $result->fetch_assoc())
     {
       #Convert from hex to binary
       $currentiv = hex2bin($row["iv"]) ;
@@ -75,7 +81,6 @@ if (isset($_POST['loginAttempt']))
         else
         {
           include "home.php" ;
-          echo $_SESSION["adminStatus"] ;
           exit() ;
         }
 
@@ -98,9 +103,9 @@ if (isset($_POST['loginAttempt']))
 <div class="formstyle">
 <form method="post" action="home.php">
 <label for="pps" class="inline" >PPS Number</label>
-<input type="text" id="pps" name='pps' class="inputsize" pattern="[0-9]{7}[A-Z]{1,2}" title="PPS must be seven letters followed by one or two capital letters"><br><br>
+<input type="text" id="pps" name='pps' class="inputsize" pattern="[0-9]{7}[A-Z]{1,2}" autocomplete="off" title="PPS must be seven letters followed by one or two capital letters"><br><br>
 <label for="passwd" class="inline">Password</label>
-<input type="password" id="passwd" name="passwd" class="inputsize"><br><br>
+<input type="password" id="passwd" name="passwd" autocomplete="off" class="inputsize"><br><br>
 <button type="submit" name="loginAttempt">Login</button>
 </form>
 </div>

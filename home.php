@@ -62,6 +62,20 @@ if (!$conn->query($sql) === TRUE) {
         if ($result -> num_rows == 0)
         {
           echo "<h2>You do not have an appointment set</h2>" ;
+          $sql = "SELECT covidStatus, iv from users WHERE PPS = '$_SESSION[pps]'" ;
+          $result = $conn->query($sql) ;
+          $row = $result->fetch_assoc() ;
+          $status = $row["covidStatus"] ;
+          $theIV = hex2bin($row["iv"]) ;
+          if (empty($status))
+          {
+
+          }
+          else {
+            $status = hex2bin($status) ;
+            $decrypted_status = openssl_decrypt($status, $cipher, $key, OPENSSL_RAW_DATA, $theIV) ;
+            echo "<h2>Your COVID-19 Test Result is $decrypted_status</h2>" ;
+          }
         }
         else {
           $result = $conn->query($sql) ;

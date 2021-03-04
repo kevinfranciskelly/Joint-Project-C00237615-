@@ -59,7 +59,7 @@ if (isset($_SESSION["loggedIn"]))
     $escaped_addrLine2 = $conn -> real_escape_string($_POST['updatedAddr2']) ;
     $escaped_county = $conn -> real_escape_string($_POST['updatedCounty']) ;
     $escaped_eir = $conn -> real_escape_string($_POST['updatedEir']) ;
-    $escaped_email = $conn -> real_escape_string($_POST['email']) ;
+    $escaped_email = $conn -> real_escape_string($_POST['updatedEmail']) ;
 
     #Encrypt the Data
     $encrypted_firstName = openssl_encrypt($escaped_firstName, $cipher, $key, OPENSSL_RAW_DATA, $iv);

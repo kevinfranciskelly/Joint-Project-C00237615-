@@ -36,6 +36,11 @@ if (isset($_SESSION["loggedIn"]))
     include "home.php" ;
     exit() ;
   }
+  if (isset($_POST["logOut"]))
+  {
+    include "logout.php" ;
+    exit() ;
+  }
   if (isset($_POST["setResult"]))
   {
     #First check that the PPS number entered is a valid
@@ -89,6 +94,17 @@ if (isset($_SESSION["loggedIn"]))
           {
             die("Error: ".$prepStatement->error) ;
           }
+          $prepStatement2 = $conn->prepare("DELETE from appointments WHERE PPS = ?") ;
+          $prepStatement2 -> bind_param("s", $rowPPS) ;
+          if ($prepStatement2->execute() === TRUE)
+          {
+
+          }
+          else
+          {
+            die("Error: ".$prepStatement->error) ;
+          }
+
         }
 
       }
@@ -126,8 +142,11 @@ else
 <option value="Negative">Negative</option>
 </select><br>
 <button type="submit" name="setResult">Set Result</button>
-
 </form>
+<form action="admin.php" method="post">
+<button type="submit" name="logOut">Log Out</button>
+</form>
+
 </div>
 </body>
 </html>

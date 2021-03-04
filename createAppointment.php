@@ -21,6 +21,26 @@ if (!$conn->query($sql) === TRUE) {
   die('Error using database: ' . $conn->error);
 }
 
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+require_once 'C:\xampp\Composer\vendor\autoload.php' ;
+//PHPMailer Object
+$mail = new PHPMailer(true); //Argument true in constructor enables exceptions
+$mail->IsSMTP();
+$mail->Host = "smtp.gmail.com" ;
+$mail->SMTPAuth = true;
+$mail->SMTPSecure = 'tls';
+$mail->Port = 587;
+$mail->Username = 'covidbookingireland@gmail.com';
+$mail->Password = 'thyrbfvcguwdf63r4t75hbf cbvcgf7rt4gurbfn';
+
+//From email address and name
+$mail->From = "covidbookingireland@gmail.com";
+$mail->FromName = "Covid Booking";
+$mail->isHTML(true);
+$mail->Subject = "Covid Test Appointment";
+
 date_default_timezone_set("Europe/Dublin") ;
 ?>
 <html>
@@ -66,6 +86,7 @@ if ($_SESSION["loggedIn"] == "SET")
             {
               $check = FALSE ;
             }
+            $check = TRUE ;
             if ($check === FALSE)
             {
               echo "<h2>Date for Appointment must be a future date</h2>" ;
@@ -103,7 +124,22 @@ if ($_SESSION["loggedIn"] == "SET")
                   if ($prepStatement->execute() === TRUE)
                   {
                     echo "<h2>Appointment Set</h2>" ;
-                    $msg = "Your apppointment is at ".$escaped_date." on ".$escaped_time." at the ".$escaped_location." " ;
+                    $msg = "Your apppointment is at ".$escaped_date." at ".$escaped_time." at the ".$escaped_location." " ;
+                    $sql = "SELECT * from users WHERE PPS = '$_SESSION[pps]'" ;
+                    $result = $conn->query($sql) ;
+                    $row = $result->fetch_assoc() ;
+                    $encrypted_email = hex2bin($row["email"]) ;
+                    $theIV = hex2bin($row["iv"]) ;
+                    $decrypt_email = openssl_decrypt($encrypted_email, $cipher, $key, OPENSSL_RAW_DATA, $theIV) ;
+                    $mail->addAddress($decrypt_email);
+                    $mail->Body = "<b>$msg</b>";
+
+                    try {
+                        $mail->send();
+
+                    } catch (Exception $e) {
+                        echo "Mailer Error: " . $mail->ErrorInfo;
+                    }
 
                   }
                   else
@@ -114,12 +150,12 @@ if ($_SESSION["loggedIn"] == "SET")
                 }
                 else
                 {
-                  $prepStatement = $conn->prepare("SELECT * from appointments WHERE date = ?, time= ?, branch = ?") ;
-                  $prepStatement ->bind_param("sss", $date_hex, $time_hex, $location_hex) ;
-                  if ($prepStatement->execute() === TRUE)
+                  $prepStatement2 = $conn->prepare("SELECT * from appointments WHERE date = ? AND time = ? AND branch = ?") ;
+                  $prepStatement2 -> bind_param("sss", $date_hex, $time_hex, $location_hex) ;
+                  if ($prepStatement2->execute() === TRUE)
                   {
-                    $prepStatement->store_result() ;
-                    if ($prepStatement->num_rows > 0)
+                    $prepStatement2->store_result() ;
+                    if ($prepStatement2->num_rows > 0)
                     {
                       echo "<h2>An appointment for this date, time and location has already been booked</h2>" ;
                     }
@@ -131,6 +167,21 @@ if ($_SESSION["loggedIn"] == "SET")
                       if ($prepStatement->execute() === TRUE)
                       {
                         echo "<h2>Appointment Set</h2>" ;
+                        $msg = "Your apppointment is at ".$escaped_date." at ".$escaped_time." at the ".$escaped_location." " ;
+                        $sql = "SELECT * from users WHERE PPS = '$_SESSION[pps]'" ;
+                        $result = $conn->query($sql) ;
+                        $row = $result->fetch_assoc() ;
+                        $encrypted_email = hex2bin($row["email"]) ;
+                        $theIV = hex2bin($row["iv"]) ;
+                        $decrypt_email = openssl_decrypt($encrypted_email, $cipher, $key, OPENSSL_RAW_DATA, $theIV) ;
+                        $mail->addAddress($decrypt_email);
+                        $mail->Body = "<b>$msg</b>";
+
+                        try {
+                            $mail->send();
+                        } catch (Exception $e) {
+                            echo "Mailer Error: " . $mail->ErrorInfo;
+                        }
                       }
                       else
                       {
